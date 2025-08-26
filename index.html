@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <head>
+  <meta charset="utf-8">
+  <title>Oldal címe</title>
+
+  <!-- Sötét mód előtöltés -->
+  <script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('theme-dark');
+      }
+    } catch(e) {}
+  })();
+  </script>
+
+  <link rel="stylesheet" href="/css/style.css">
+</head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Kezdolap</title>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <main>
+      <h1>Kezdolap</h1>
+      <p>Udvozollek az erettsegire felkeszito oldalon. Valassz tantargyat a menubol!</p>
+    </main>
+
+    <script>
+      fetch('/menu.html').then(r=>r.text()).then(h=>{
+        document.getElementById('header').innerHTML=h;
+        const p=location.pathname.replace(/\/$/,'/index.html');
+        document.querySelectorAll('#header a').forEach(a=>{ if(a.getAttribute('href')===p) a.setAttribute('aria-current','page'); });
+      });
+    </script>
+  </body>
+</html>

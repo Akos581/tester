@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="hu">
+
+<div id="header"></div>
+<script>
+fetch('/menu.html')
+  .then(res => res.text())
+  .then(html => document.getElementById('header').innerHTML = html);
+</script>
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Kvíz</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="quiz-container">
+    <div id="play-view">
+      <div class="progress" id="progress"></div>
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="controls">
+        <button id="prev-btn" disabled>⬅ Előző</button>
+        <button id="next-btn" disabled>Következő ➜</button>
+      </div>
+    </div>
+
+    <div id="result-view" hidden>
+      <div class="score" id="final-score"></div>
+      <div id="results-list"></div>
+      <button class="restart-btn" id="restart-btn">Újrakezdés</button>
+    </div>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="hu">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Zászló Kvíz</title>
+  <link rel="stylesheet" href="style.css" />
+
+  <!-- Tiltás: jobb kattintás, kijelölés, másolás -->
+  <script>
+    document.addEventListener("contextmenu", e => e.preventDefault());
+    document.addEventListener("copy", e => e.preventDefault());
+    document.addEventListener("selectstart", e => e.preventDefault());
+  </script>
+  <style>
+    body {
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="quiz-container">
+    <h1>Zászló Kvíz 🌍</h1>
+    <div class="progress" id="progress"></div>
+    <div id="play-view">
+      <div class="question" id="question"></div>
+      <div class="options" id="options"></div>
+      <div class="explanation" id="explanation"></div>
+      <div class="controls">
+        <button id="prev-btn">Előző</button>
+        <button id="next-btn">Következő</button>
+      </div>
+    </div>
+    <div id="result-view" hidden>
+      <div class="score" id="score"></div>
+      <div id="results"></div>
+      <button class="restart-btn" onclick="restartQuiz()">Újrakezdés</button>
+    </div>
+  </div>
+
+  <script src="questions.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

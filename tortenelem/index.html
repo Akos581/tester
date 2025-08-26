@@ -1,0 +1,29 @@
+<!doctype html>
+<html lang="hu">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tortenelem</title>
+    <link rel="stylesheet" href="/css/style.css">
+  </head>
+  <body>
+    <div id="header"></div>
+
+    <main>
+      <h1>Tortenelem</h1>
+      <p>Valassz az alabbi reszek kozul:</p>
+      <ul>
+        <li><a href="/tortenelem/erettsegik.html">Erettsegik</a></li>
+        <li><a href="/tortenelem/kvizek/index.html">Kvizek</a></li>
+      </ul>
+    </main>
+
+    <script>
+      fetch('/menu.html').then(r=>r.text()).then(h=>{
+        document.getElementById('header').innerHTML=h;
+        const p=location.pathname.replace(/\/$/,'/index.html');
+        document.querySelectorAll('#header a').forEach(a=>{ if(a.getAttribute('href')===p) a.setAttribute('aria-current','page'); });
+      });
+    </script>
+  </body>
+</html>
