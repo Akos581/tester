@@ -32,16 +32,23 @@
   </main>
 
   <script>
-    // Menü betöltése
-    fetch('/menu.html').then(r => r.text()).then(h => {
+    // Menü betöltése (RELATÍV útvonal)
+    fetch('menu.html').then(r => {
+      if (!r.ok) throw new Error('Nem sikerült betölteni a menüt: ' + r.status);
+      return r.text();
+    }).then(h => {
       document.getElementById('header').innerHTML = h;
 
-      // Aktív menüpont jelölése
+      // Aktív menüpont jelölése (robosztusabb megoldás)
       const currentPath = location.pathname.replace(/\/$/, '/index.html');
       document.querySelectorAll('#header a').forEach(a => {
-        if (a.pathname === currentPath) {
-          a.setAttribute('aria-current', 'page');
-        }
+        try {
+          const href = a.getAttribute('href') || '';
+          const resolved = new URL(href, location.href).pathname.replace(/\/$/, '/index.html');
+          if (resolved === currentPath) {
+            a.setAttribute('aria-current', 'page');
+          }
+        } catch(e) {}
       });
 
       // Mobilmenü nyitás/zárás
@@ -54,10 +61,12 @@
         });
       }
 
-      // Téma váltó script betöltése
+      // Téma váltó script betöltése (RELATÍV)
       const themeScript = document.createElement('script');
-      themeScript.src = '/js/theme.js';
+      themeScript.src = 'js/theme.js';
       document.body.appendChild(themeScript);
+    }).catch(err => {
+      console.error(err);
     });
   </script>
 </body>

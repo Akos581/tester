@@ -33,6 +33,7 @@
     <h1>Kapcsolat</h1>
     <p>Ha kérdésed, észrevételed vagy javaslatod van, töltsd ki az alábbi űrlapot:</p>
 
+    <!-- FIGYELEM: send_email.php csak akkor működik, ha PHP szerver (nem GitHub Pages) -->
     <form class="contact-form" action="send_email.php" method="POST">
       <label for="nev">Név</label>
       <input type="text" id="nev" name="nev" placeholder="Add meg a neved" required>
@@ -49,23 +50,44 @@
 
   <!-- Script-ek -->
   <script>
-    // Menü betöltése
-    fetch('/menu.html')
-      .then(res => res.text())
+    // Menü betöltése (RELATÍV útvonal — ne kezdő /-sel)
+    fetch('menu.html')
+      .then(res => {
+        if (!res.ok) throw new Error('Nem sikerült betölteni a menüt: ' + res.status);
+        return res.text();
+      })
       .then(html => {
         document.getElementById('header').innerHTML = html;
-        // Aktív link kiemelése
-       const currentPath = location.pathname.replace(/\/$/, '/index.html');
-document.querySelectorAll('#header a').forEach(a => {
-  // Csak az útvonalat hasonlítjuk össze, domain nélkül
-  if (a.pathname === currentPath) {
-    a.setAttribute('aria-current', 'page');
-  }
-});
-        // Téma script betöltése
+
+        // Aktív link kiemelése (robosztusabb: resolve-oljuk a href-et)
+        const currentPath = location.pathname.replace(/\/$/, '/index.html');
+        document.querySelectorAll('#header a').forEach(a => {
+          try {
+            const href = a.getAttribute('href') || '';
+            const resolved = new URL(href, location.href).pathname.replace(/\/$/, '/index.html');
+            if (resolved === currentPath) {
+              a.setAttribute('aria-current', 'page');
+            }
+          } catch(e) {}
+        });
+
+        // Téma script betöltése (RELATÍV, egységes)
         const themeScript = document.createElement('script');
-        themeScript.src = './js/theme.js';
+        themeScript.src = 'js/theme.js';
         document.body.appendChild(themeScript);
+
+        // Mobilmenü nyitás (biztosítjuk, hogy gomb és nav létezzen)
+        const toggle = document.getElementById('menu-toggle');
+        const nav = document.getElementById('nav-links');
+        if (toggle && nav) {
+          toggle.addEventListener('click', () => {
+            nav.classList.toggle('open');
+            toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+          });
+        }
+      })
+      .catch(err => {
+        console.error(err);
       });
   </script>
 
