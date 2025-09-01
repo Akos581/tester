@@ -1,0 +1,136 @@
+/* ===== Header / Nav ===== */
+.site-header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  background: var(--card-bg);
+  backdrop-filter: blur(8px);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+}
+
+.site-nav {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 16px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 10px 20px;
+}
+
+.logo a {
+  text-decoration: none;
+  font-weight: 800;
+  letter-spacing: .2px;
+  color: var(--text);
+}
+
+.nav-links {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 500;
+  padding: 8px 10px;
+  border-radius: 8px;
+  transition: background .2s, color .2s;
+}
+
+.nav-links a:hover,
+.nav-links a[aria-current="page"] {
+  background: var(--hover-bg);
+}
+
+/* Dropdown */
+.dropdown { position: relative; }
+.dropdown > a::after {
+  content: " ▾";
+  font-size: .85em;
+}
+.dropdown-content {
+  display: none;
+  position: absolute;
+  top: 110%;
+  left: 0;
+  min-width: 200px;
+  background: var(--card-bg);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 6px 0;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+}
+.dropdown-content a {
+  display: block;
+  padding: 10px 14px;
+  color: var(--text);
+  border-radius: 8px;
+}
+.dropdown-content a:hover {
+  background: var(--hover-bg);
+}
+.dropdown:hover .dropdown-content { display: block; }
+
+/* Gombok */
+.theme-toggle,
+.menu-toggle {
+  background: none;
+  border: none;
+  font-size: 1.25rem;
+  cursor: pointer;
+  color: var(--text);
+  padding: 6px 10px;
+  border-radius: 8px;
+  transition: background .2s, transform .1s;
+}
+.theme-toggle:hover,
+.menu-toggle:hover {
+  background: var(--hover-bg);
+  transform: translateY(-1px);
+}
+
+/* Mobil nav */
+.menu-toggle { display: none; }
+
+@media (max-width: 860px) {
+  .site-nav {
+    grid-template-columns: auto auto auto;
+  }
+
+  .menu-toggle { display: inline-block; }
+
+  .nav-links {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    display: grid;
+    gap: 4px;
+    padding: 10px;
+    background: var(--card-bg);
+    border-bottom: 1px solid var(--border);
+    transform-origin: top;
+    transform: scaleY(0.98);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity .18s, transform .18s;
+  }
+  .nav-links.open {
+    opacity: 1;
+    transform: scaleY(1);
+    pointer-events: auto;
+  }
+  .dropdown:hover .dropdown-content { display: none; }
+  .dropdown .dropdown-content {
+    position: static;
+    border: 0;
+    box-shadow: none;
+    padding: 0;
+    background: transparent;
+  }
+  .dropdown .dropdown-content a { padding-left: 24px; }
+}

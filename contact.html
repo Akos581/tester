@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="hu">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kapcsolat</title>
+
+  <!-- Sötét mód előtöltés -->
+  <script>
+  (function() {
+    try {
+      var saved = localStorage.getItem('theme');
+      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+      if (saved === 'dark' || (!saved && prefersDark)) {
+        document.documentElement.classList.add('theme-dark');
+      }
+    } catch(e) {}
+  })();
+  </script>
+
+  <!-- Stílusok (relatív útvonal) -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/menu.css">
+  <link rel="stylesheet" href="/css/form.css">
+
+</head>
+<body>
+
+  <!-- Fejléc betöltése -->
+  <div id="header"></div>
+
+  <main>
+    <h1>Kapcsolat</h1>
+    <p>Ha kérdésed, észrevételed vagy javaslatod van, töltsd ki az alábbi űrlapot:</p>
+
+    <form class="contact-form" action="send_email.php" method="POST">
+      <label for="nev">Név</label>
+      <input type="text" id="nev" name="nev" placeholder="Add meg a neved" required>
+
+      <label for="email">E-mail cím</label>
+      <input type="email" id="email" name="email" placeholder="Add meg az e-mail címed" required>
+
+      <label for="uzenet">Üzenet</label>
+      <textarea id="uzenet" name="uzenet" rows="6" placeholder="Írd ide az üzeneted..." required></textarea>
+
+      <button type="submit">Küldés</button>
+    </form>
+  </main>
+
+  <!-- Script-ek -->
+  <script>
+    // Menü betöltése
+    fetch('/menu.html')
+      .then(res => res.text())
+      .then(html => {
+        document.getElementById('header').innerHTML = html;
+        // Aktív link kiemelése
+       const currentPath = location.pathname.replace(/\/$/, '/index.html');
+document.querySelectorAll('#header a').forEach(a => {
+  // Csak az útvonalat hasonlítjuk össze, domain nélkül
+  if (a.pathname === currentPath) {
+    a.setAttribute('aria-current', 'page');
+  }
+});
+        // Téma script betöltése
+        const themeScript = document.createElement('script');
+        themeScript.src = './js/theme.js';
+        document.body.appendChild(themeScript);
+      });
+  </script>
+
+</body>
+</html>

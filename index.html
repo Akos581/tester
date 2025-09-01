@@ -1,9 +1,9 @@
 <!doctype html>
 <html lang="hu">
-  <head>
-    <head>
+<head>
   <meta charset="utf-8">
-  <title>Oldal címe</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Kezdőlap</title>
 
   <!-- Sötét mód előtöltés -->
   <script>
@@ -18,28 +18,47 @@
   })();
   </script>
 
-  <link rel="stylesheet" href="/css/style.css">
+  <!-- Egységes CSS -->
+  <link rel="stylesheet" href="/css/base.css">
+  <link rel="stylesheet" href="/css/menu.css">
+
 </head>
+<body>
+  <div id="header"></div>
 
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Kezdolap</title>
-    <link rel="stylesheet" href="/css/style.css">
-  </head>
-  <body>
-    <div id="header"></div>
+  <main>
+    <h1>Kezdőlap</h1>
+    <p>Üdvözöllek az érettségire felkészítő oldalon. Válassz tantárgyat a menüből!</p>
+  </main>
 
-    <main>
-      <h1>Kezdolap</h1>
-      <p>Udvozollek az erettsegire felkeszito oldalon. Valassz tantargyat a menubol!</p>
-    </main>
+  <script>
+    // Menü betöltése
+    fetch('/menu.html').then(r => r.text()).then(h => {
+      document.getElementById('header').innerHTML = h;
 
-    <script>
-      fetch('/menu.html').then(r=>r.text()).then(h=>{
-        document.getElementById('header').innerHTML=h;
-        const p=location.pathname.replace(/\/$/,'/index.html');
-        document.querySelectorAll('#header a').forEach(a=>{ if(a.getAttribute('href')===p) a.setAttribute('aria-current','page'); });
+      // Aktív menüpont jelölése
+      const currentPath = location.pathname.replace(/\/$/, '/index.html');
+      document.querySelectorAll('#header a').forEach(a => {
+        if (a.pathname === currentPath) {
+          a.setAttribute('aria-current', 'page');
+        }
       });
-    </script>
-  </body>
+
+      // Mobilmenü nyitás/zárás
+      const toggle = document.getElementById('menu-toggle');
+      const nav = document.getElementById('nav-links');
+      if (toggle && nav) {
+        toggle.addEventListener('click', () => {
+          nav.classList.toggle('open');
+          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
+        });
+      }
+
+      // Téma váltó script betöltése
+      const themeScript = document.createElement('script');
+      themeScript.src = '/js/theme.js';
+      document.body.appendChild(themeScript);
+    });
+  </script>
+</body>
 </html>

@@ -1,0 +1,66 @@
+/* ===== Téma változók ===== */
+:root {
+  --bg-grad-start: #dfe9f3;
+  --bg-grad-end: #ffffff;
+  --text: #2c3e50;
+  --muted: #6b7a8c;
+  --card-bg: #ffffff;
+  --border: #e5e7eb;
+  --link: #0d6efd;
+  --link-hover: #0b5ed7;
+  --hover-bg: #ecf0f1;
+
+  /* Form színek */
+  --bg-secondary: #f9f9f9;
+  --accent-color: #0077cc;
+  --accent-color-hover: #005fa3;
+  --border-color: #ccc;
+  --bg-input: #fff;
+  --text-color: #000;
+}
+
+html.theme-dark {
+  --bg-grad-start: #111827;
+  --bg-grad-end: #0b1220;
+  --text: #f3f4f6;
+  --muted: #a3aab6;
+  --card-bg: #1f2937;
+  --border: #2b3646;
+  --link: #66aaff;
+  --link-hover: #8bb9ff;
+  --hover-bg: rgba(255,255,255,0.08);
+
+  --bg-secondary-dark: #222;
+  --accent-color-dark: #3399ff;
+  --border-color-dark: #444;
+  --bg-input-dark: #333;
+  --text-color-dark: #fff;
+}
+
+/* ===== Alap stílus ===== */
+body {
+  background: linear-gradient(135deg, var(--bg-grad-start), var(--bg-grad-end));
+  color: var(--text);
+  margin: 0;
+  font-family: 'Segoe UI', system-ui, sans-serif;
+}
+
+main {
+  width: clamp(320px, 92vw, 1100px);
+  background: var(--card-bg);
+  margin: 40px 16px;
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
+  border: 1px solid var(--border);
+  animation: fadeIn 0.4s ease;
+}
+
+h1, h2, h3 { color: var(--text); }
+a { color: var(--link); }
+a:hover { color: var(--link-hover); }
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(8px); }
+  to { opacity: 1; transform: none; }
+}
