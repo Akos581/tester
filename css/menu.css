@@ -11,12 +11,12 @@
 
 .site-nav {
   display: grid;
-  grid-template-columns: auto 1fr auto;
+  grid-template-columns: auto 1fr auto auto; /* 4 oszlop: logo | menü | visszaszámláló | téma-váltó */
   align-items: center;
   gap: 16px;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 10px 20px;
+  max-width: 1200px;       /* vissza a fix szélesség */
+  margin: 0 auto;          /* középre igazítás */
+  padding: 10px 20px;      /* belső margó */
 }
 
 .logo a {
@@ -133,4 +133,11 @@
     background: transparent;
   }
   .dropdown .dropdown-content a { padding-left: 24px; }
+}
+
+/* ===== Visszaszamlalo design ===== */
+.exam-countdown {
+  font-weight: 600;
+  color: var(--text);
+  white-space: nowrap;
 }

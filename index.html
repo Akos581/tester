@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Kezdőlap</title>
-
+  
   <!-- Sötét mód előtöltés -->
   <script>
   (function() {
@@ -23,9 +23,9 @@
   <link rel="stylesheet" href="css/menu.css">
 
 </head>
+
 <body>
   <div id="header"></div>
-
   <main>
     <h1>Kezdőlap</h1>
     <p>Üdvözöllek az érettségire felkészítő oldalon. Válassz tantárgyat a menüből!</p>
@@ -39,7 +39,7 @@
     }).then(h => {
       document.getElementById('header').innerHTML = h;
 
-      // Aktív menüpont jelölése (robosztusabb megoldás)
+      // Aktív menüpont jelölése
       const currentPath = location.pathname.replace(/\/$/, '/index.html');
       document.querySelectorAll('#header a').forEach(a => {
         try {
@@ -61,13 +61,30 @@
         });
       }
 
-      // Téma váltó script betöltése (RELATÍV)
+      // Téma váltó script betöltése
       const themeScript = document.createElement('script');
       themeScript.src = 'js/theme.js';
       document.body.appendChild(themeScript);
+
+      // Countdown script betöltése és indítása
+      const countdownScript = document.createElement('script');
+      countdownScript.src = 'js/countdown.js';
+      countdownScript.onload = () => {
+        if (window.initExamCountdown) window.initExamCountdown();
+      };
+      document.body.appendChild(countdownScript);
+
     }).catch(err => {
       console.error(err);
     });
   </script>
+
+<footer class="site-footer">
+  <small>
+    <a id="site-version" href="updates.html"></a>
+  </small>
+</footer>
+
+<script src="js/version.js"></script>
 </body>
 </html>

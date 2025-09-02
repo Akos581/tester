@@ -64,3 +64,21 @@ a:hover { color: var(--link-hover); }
   from { opacity: 0; transform: translateY(8px); }
   to { opacity: 1; transform: none; }
 }
+
+/* ===== Verzio design ===== */
+.site-footer {
+  text-align: center;
+  padding: 12px;
+  color: var(--muted);
+  font-size: 0.9rem;
+  background: #f8f8f8;
+}
+
+.site-footer a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  text-decoration: underline;
+}
