@@ -5,27 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Történelem Érettségi</title>
 
-  <!-- Sötét mód előtöltés -->
-  <script>
-  (function() {
-    try {
-      var saved = localStorage.getItem('theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        document.documentElement.classList.add('theme-dark');
-      }
-    } catch(e) {}
-  })();
-  </script>
+  <!-- SEO -->
+  <meta name="description" content="Történelem érettségi szintválasztó oldal.">
 
+  <!-- CSS (relatív a mappamélységhez) -->
   <link rel="stylesheet" href="../../css/base.css">
   <link rel="stylesheet" href="../../css/menu.css">
 
-  <meta name="description" content="Történelem érettségi szintválasztó oldal.">
+  <!-- JS: GitHub Pages base URL -->
+  <script src="../../js/base-url.js"></script>
+  <!-- JS: Sötét mód előtöltés -->
+  <script src="../../js/theme-init.js"></script>
 </head>
 
 <body>
   <div id="header"></div>
+
   <main>
     <h1>Válaszd ki az érettségi szintet</h1>
     <div class="exam-choice">
@@ -34,40 +29,12 @@
     </div>
   </main>
 
-  <script>
-    // Menü betöltése + aktív menüpont + mobilmenü
-    fetch('../../menu.html').then(r => {
-      if (!r.ok) throw new Error('Nem sikerült betölteni a menüt: ' + r.status);
-      return r.text();
-    }).then(h => {
-      document.getElementById('header').innerHTML = h;
+  <!-- Menü: adat + generálás + interakciók (relatív útvonalakkal) -->
+  <script src="../../js/menu-data.js"></script>
+  <script src="../../js/menu-generator.js"></script>
+  <script src="../../js/menu-loader.js"></script>
 
-      // Aktív menüpont jelölése
-      const currentPath = location.pathname.replace(/\/$/, '/index.html');
-      document.querySelectorAll('#header a').forEach(a => {
-        try {
-          const href = a.getAttribute('href') || '';
-          const resolved = new URL(href, location.href).pathname.replace(/\/$/, '/index.html');
-          if (resolved === currentPath) {
-            a.setAttribute('aria-current', 'page');
-          }
-        } catch(e) {}
-      });
-
-      // Mobilmenü nyitás/zárás
-      const toggle = document.getElementById('menu-toggle');
-      const nav = document.getElementById('nav-links');
-      if (toggle && nav) {
-        toggle.addEventListener('click', () => {
-          nav.classList.toggle('open');
-          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
-        });
-      }
-    }).catch(err => {
-      console.error(err);
-    });
-  </script>
-
+  <!-- Verzió kijelzés -->
   <script src="../../js/version.js"></script>
 </body>
 </html>

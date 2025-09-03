@@ -4,89 +4,39 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
 
-  <!-- GitHub Pages alap URL csak online -->
-  <script>
-  (function() {
-    if (location.hostname.includes('github.io')) {
-      var base = document.createElement('base');
-      base.href = 'https://akos581.github.io/tester/';
-      document.head.appendChild(base);
-    }
-  })();
-  </script>
-
   <title>Kezdőlap</title>
 
-  <!-- Sötét mód előtöltés -->
-  <script>
-  (function() {
-    try {
-      var saved = localStorage.getItem('theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        document.documentElement.classList.add('theme-dark');
-      }
-    } catch(e) {}
-  })();
-  </script>
+  <!-- SEO -->
+  <meta name="description" content="Érettségire felkészítő oldal történelem és földrajz tantárgyakhoz, feladatokkal és kvízekkel.">
+  <meta name="keywords" content="érettségi, történelem, földrajz, felkészítő, kvíz, tanulás">
+  <meta name="author" content="Akos">
+  <meta name="robots" content="index, follow">
 
   <!-- CSS -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/menu.css">
 
-  <!-- SEO -->
-  <meta name="description" content="Érettségire felkészítő oldal történelem és földrajz tantárgyakhoz, feladatokkal és kvízekkel.">
-  <meta name="keywords" content="érettségi, történelem, földrajz, felkészítő, kvíz, tanulás">
-  <meta name="author" content="Channel">
-  <meta name="robots" content="index, follow">
+  <!-- JS: GitHub Pages base URL -->
+  <script src="js/base-url.js"></script>
+  <!-- JS: Sötét mód előtöltés -->
+  <script src="js/theme-init.js"></script>
 </head>
 
 <body>
   <div id="header"></div>
+
   <main>
     <h1>Kezdőlap</h1>
     <p>Üdvözöllek az érettségire felkészítő oldalon. Válassz tantárgyat a menüből!</p>
     <p><a id="site-version" href="updates.html"></a></p>
   </main>
 
-  <script>
-    fetch('menu.html').then(r => {
-      if (!r.ok) throw new Error('Nem sikerült betölteni a menüt: ' + r.status);
-      return r.text();
-    }).then(h => {
-      document.getElementById('header').innerHTML = h;
+  <!-- Menü: adat + generálás + interakciók -->
+  <script src="js/menu-data.js"></script>
+  <script src="js/menu-generator.js"></script>
+  <script src="js/menu-loader.js"></script>
 
-      const currentPath = location.pathname.replace(/\/$/, '/index.html');
-      document.querySelectorAll('#header a').forEach(a => {
-        try {
-          const href = a.getAttribute('href') || '';
-          const resolved = new URL(href, location.href).pathname.replace(/\/$/, '/index.html');
-          if (resolved === currentPath) a.setAttribute('aria-current', 'page');
-        } catch(e) {}
-      });
-
-      const toggle = document.getElementById('menu-toggle');
-      const nav = document.getElementById('nav-links');
-      if (toggle && nav) {
-        toggle.addEventListener('click', () => {
-          nav.classList.toggle('open');
-          toggle.setAttribute('aria-expanded', nav.classList.contains('open'));
-        });
-      }
-
-      const themeScript = document.createElement('script');
-      themeScript.src = 'js/theme.js';
-      document.body.appendChild(themeScript);
-
-      const countdownScript = document.createElement('script');
-      countdownScript.src = 'js/countdown.js';
-      countdownScript.onload = () => {
-        if (window.initExamCountdown) window.initExamCountdown();
-      };
-      document.body.appendChild(countdownScript);
-    }).catch(console.error);
-  </script>
-
+  <!-- Verzió kijelzés -->
   <script src="js/version.js"></script>
 </body>
 </html>
