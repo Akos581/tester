@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Frissítések</title>
+  <title>Érettségi</title>
 
   <!-- Sötét mód előtöltés -->
   <script>
@@ -18,33 +18,31 @@
   })();
   </script>
 
-  <!-- Egységes CSS -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/menu.css">
 
-  <!-- Oldal leírása -->
-  <meta name="description" content="Az érettségire felkészítő oldal frissítései és változásai.">
-  <meta name="author" content="Channel">
+  <meta name="description" content="Történelem érettségi szintválasztó oldal.">
 </head>
 
 <body>
   <div id="header"></div>
   <main>
-    <h1>Frissítések</h1>
-    <ul>
-      <li><strong>2025.09.02</strong> – Verzió 0.1 (Test) kiadva</li>
-      <li><strong>2025.08.28</strong> – Új kvízkérdések történelemből</li>
-      <li><strong>2025.09.02</strong> – Érettségéig tartó visszaszámláló hozzáadva</li>
-      <li><strong>2025.09.02</strong> – Weboldal verzió mutató és frissítési lista hozzáadva</li>
-      <!-- ide jöhetnek a további frissítések -->
-    </ul>
+    <h1>Válaszd ki az érettségi szintet</h1>
+    <div class="exam-choice">
+      <a class="exam-btn" href="tortenelem/tortenelem_kozep.html">Középszint</a>
+      <a class="exam-btn" href="tortenelem/erettsegi-emelt.html">Emelt szint</a>
+    </div>
   </main>
 
   <script>
-    // Menü betöltése, hogy a design egységes legyen
+    // Menü betöltése
     fetch('menu.html').then(r => r.text()).then(h => {
       document.getElementById('header').innerHTML = h;
     });
   </script>
+
+  <!-- Verziószám script -->
+  <script src="js/version.js"></script>
 </body>
 </html>

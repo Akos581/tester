@@ -82,3 +82,23 @@ a:hover { color: var(--link-hover); }
 .site-footer a:hover {
   text-decoration: underline;
 }
+
+.exam-choice {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  margin-top: 40px;
+}
+.exam-btn {
+  display: inline-block;
+  padding: 20px 40px;
+  font-size: 1.2rem;
+  background: var(--accent-color);
+  color: #fff;
+  text-decoration: none;
+  border-radius: 8px;
+  transition: background 0.3s;
+}
+.exam-btn:hover {
+  background: var(--accent-color-hover);
+}
