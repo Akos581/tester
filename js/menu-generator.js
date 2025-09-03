@@ -4,12 +4,17 @@
     return;
   }
 
+  // --- Újdonság: dinamikus basePath számítás ---
+  const depth = location.pathname.split('/').filter(Boolean).length - 1;
+  const basePath = depth > 0 ? '../'.repeat(depth) : '';
+
   const menu = window.MENU_DATA;
 
   function createLink(link) {
     const a = document.createElement("a");
     a.textContent = link.text;
-    a.href = link.href;
+    // --- Újdonság: minden href elé odatesszük a basePath-et ---
+    a.href = basePath + link.href;
     return a;
   }
 

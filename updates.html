@@ -5,30 +5,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Frissítések</title>
 
-  <!-- Sötét mód előtöltés -->
-  <script>
-  (function() {
-    try {
-      var saved = localStorage.getItem('theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      if (saved === 'dark' || (!saved && prefersDark)) {
-        document.documentElement.classList.add('theme-dark');
-      }
-    } catch(e) {}
-  })();
-  </script>
+  <!-- SEO -->
+  <meta name="description" content="Az érettségire felkészítő oldal frissítései és változásai.">
+  <meta name="author" content="Channel">
 
-  <!-- Egységes CSS -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/menu.css">
 
-  <!-- Oldal leírása -->
-  <meta name="description" content="Az érettségire felkészítő oldal frissítései és változásai.">
-  <meta name="author" content="Channel">
+  <!-- JS: GitHub Pages base URL -->
+  <script src="js/base-url.js"></script>
+  <!-- JS: Sötét mód előtöltés -->
+  <script src="js/theme-init.js"></script>
 </head>
 
 <body>
   <div id="header"></div>
+
   <main>
     <h1>Újdonságok</h1>
     <ul>
@@ -40,11 +33,12 @@
     </ul>
   </main>
 
-  <script>
-    // Menü betöltése, hogy a design egységes legyen
-    fetch('menu.html').then(r => r.text()).then(h => {
-      document.getElementById('header').innerHTML = h;
-    });
-  </script>
+  <!-- Menü: adat + generálás + interakciók -->
+  <script src="js/menu-data.js"></script>
+  <script src="js/menu-generator.js"></script>
+  <script src="js/menu-loader.js"></script>
+
+  <!-- Verzió kijelzés -->
+  <script src="js/version.js"></script>
 </body>
 </html>
