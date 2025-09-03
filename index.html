@@ -3,8 +3,20 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- GitHub Pages alap URL csak online -->
+  <script>
+  (function() {
+    if (location.hostname.includes('github.io')) {
+      var base = document.createElement('base');
+      base.href = 'https://akos581.github.io/tester/';
+      document.head.appendChild(base);
+    }
+  })();
+  </script>
+
   <title>Kezdőlap</title>
-  
+
   <!-- Sötét mód előtöltés -->
   <script>
   (function() {
@@ -18,11 +30,11 @@
   })();
   </script>
 
-  <!-- Egységes CSS -->
+  <!-- CSS -->
   <link rel="stylesheet" href="css/base.css">
   <link rel="stylesheet" href="css/menu.css">
 
-  <!-- Oldal leírása (SEO + Google) -->
+  <!-- SEO -->
   <meta name="description" content="Érettségire felkészítő oldal történelem és földrajz tantárgyakhoz, feladatokkal és kvízekkel.">
   <meta name="keywords" content="érettségi, történelem, földrajz, felkészítő, kvíz, tanulás">
   <meta name="author" content="Channel">
@@ -31,35 +43,28 @@
 
 <body>
   <div id="header"></div>
-<main>
-  <h1>Kezdőlap</h1>
-  <p>Üdvözöllek az érettségire felkészítő oldalon. Válassz tantárgyat a menüből!</p>
-
-  <!-- Verziószám helye -->
-  <p><a id="site-version" href="updates.html"></a></p>
-</main>
+  <main>
+    <h1>Kezdőlap</h1>
+    <p>Üdvözöllek az érettségire felkészítő oldalon. Válassz tantárgyat a menüből!</p>
+    <p><a id="site-version" href="updates.html"></a></p>
+  </main>
 
   <script>
-    // Menü betöltése (RELATÍV útvonal)
     fetch('menu.html').then(r => {
       if (!r.ok) throw new Error('Nem sikerült betölteni a menüt: ' + r.status);
       return r.text();
     }).then(h => {
       document.getElementById('header').innerHTML = h;
 
-      // Aktív menüpont jelölése
       const currentPath = location.pathname.replace(/\/$/, '/index.html');
       document.querySelectorAll('#header a').forEach(a => {
         try {
           const href = a.getAttribute('href') || '';
           const resolved = new URL(href, location.href).pathname.replace(/\/$/, '/index.html');
-          if (resolved === currentPath) {
-            a.setAttribute('aria-current', 'page');
-          }
+          if (resolved === currentPath) a.setAttribute('aria-current', 'page');
         } catch(e) {}
       });
 
-      // Mobilmenü nyitás/zárás
       const toggle = document.getElementById('menu-toggle');
       const nav = document.getElementById('nav-links');
       if (toggle && nav) {
@@ -69,25 +74,19 @@
         });
       }
 
-      // Téma váltó script betöltése
       const themeScript = document.createElement('script');
       themeScript.src = 'js/theme.js';
       document.body.appendChild(themeScript);
 
-      // Countdown script betöltése és indítása
       const countdownScript = document.createElement('script');
       countdownScript.src = 'js/countdown.js';
       countdownScript.onload = () => {
         if (window.initExamCountdown) window.initExamCountdown();
       };
       document.body.appendChild(countdownScript);
-
-    }).catch(err => {
-      console.error(err);
-    });
+    }).catch(console.error);
   </script>
 
-  <!-- Verziószám script -->
   <script src="js/version.js"></script>
 </body>
 </html>
