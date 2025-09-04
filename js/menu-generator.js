@@ -4,17 +4,17 @@
     return;
   }
 
-  // --- Újdonság: dinamikus basePath számítás ---
-  const depth = location.pathname.split('/').filter(Boolean).length - 1;
-  const basePath = depth > 0 ? '../'.repeat(depth) : '';
+  // --- GitHub Pages repo neve ---
+  const REPO_NAME = "erettsegi"; // <-- IDE írd a saját repo nevét!
+  const BASE_PATH = `/${REPO_NAME}/`;
 
   const menu = window.MENU_DATA;
 
   function createLink(link) {
     const a = document.createElement("a");
     a.textContent = link.text;
-    // --- Újdonság: minden href elé odatesszük a basePath-et ---
-    a.href = basePath + link.href;
+    // Minden href elé odatesszük a BASE_PATH-et
+    a.href = BASE_PATH + link.href;
     return a;
   }
 
