@@ -4,29 +4,74 @@
     return;
   }
 
+  // Ha van <base>, használjuk azt feloldáshoz, különben null
+  function getBaseHref() {
+    var baseEl = document.querySelector('base');
+    if (baseEl) {
+      var b = baseEl.getAttribute('href') || '';
+      if (!b.endsWith('/')) b += '/';
+      return b;
+    }
+    return null;
+  }
+  var BASE_HREF = getBaseHref();
+
   const menu = window.MENU_DATA;
 
-  function createLink(link) {
+  function resolveHref(href) {
+    // Ha teljes URL-ről van szó, hagyjuk
+    if (/^https?:\/\//i.test(href)) return href;
+
+    // Ha van base (GitHub Pages esetén), oldjuk fel arra
+    if (BASE_HREF) {
+      try {
+        return new URL(href, BASE_HREF).href;
+      } catch (e) { /* fallthrough */ }
+    }
+
+    // Lokális eset: oldjuk fel a szerver gyökeréhez képest (location.origin + '/')
+    try {
+      return new URL(href, location.origin + '/').href;
+    } catch (e) {
+      // Ha minden kötél szakad, térjünk vissza nyers href-cel
+      return href;
+    }
+  }
+
+  function createLinkObj(link) {
     const a = document.createElement("a");
     a.textContent = link.text;
-    // Ne prefixeljük kézzel a repo nevét — hagyjuk, hogy a böngésző oldja fel relatívan.
-    // Ha van <base>, azt a böngésző automatikusan használja.
-    a.setAttribute('href', link.href);
+    const resolved = resolveHref(link.href);
+    a.setAttribute('href', resolved);
+    // tároljuk az eredeti href-et későbbi összehasonlításhoz
+    a.dataset.rawHref = link.href;
+    a.dataset.resolvedHref = resolved;
     return a;
   }
 
-  function createDropdown(item) {
-    const wrapper = document.createElement("div");
-    wrapper.className = "dropdown";
-    wrapper.appendChild(createLink(item));
-
+  // Rekurzív menüpont-építő: lehet közvetlen link, vagy dropdown (gyermekekkel)
+  function createMenuItem(item) {
     if (item.children && item.children.length) {
-      const dropdownContent = document.createElement("div");
-      dropdownContent.className = "dropdown-content";
-      item.children.forEach(child => dropdownContent.appendChild(createLink(child)));
-      wrapper.appendChild(dropdownContent);
+      const wrapper = document.createElement("div");
+      wrapper.className = "dropdown";
+
+      // A szülő link
+      const parent = createLinkObj(item);
+      parent.classList.add('dropdown-parent');
+      wrapper.appendChild(parent);
+
+      const content = document.createElement("div");
+      content.className = "dropdown-content";
+
+      item.children.forEach(child => {
+        content.appendChild(createMenuItem(child));
+      });
+
+      wrapper.appendChild(content);
+      return wrapper;
+    } else {
+      return createLinkObj(item);
     }
-    return wrapper;
   }
 
   function buildMenuHTML() {
@@ -48,20 +93,16 @@
     // Logo
     const logoDiv = document.createElement("div");
     logoDiv.className = "logo";
-    logoDiv.appendChild(createLink(menu.logo));
+    logoDiv.appendChild(createLinkObj(menu.logo));
     nav.appendChild(logoDiv);
 
-    // Linkek
+    // Linkek (rekurzívan)
     const navLinks = document.createElement("div");
     navLinks.className = "nav-links";
     navLinks.id = "nav-links";
 
     menu.links.forEach(item => {
-      if (item.children) {
-        navLinks.appendChild(createDropdown(item));
-      } else {
-        navLinks.appendChild(createLink(item));
-      }
+      navLinks.appendChild(createMenuItem(item));
     });
     nav.appendChild(navLinks);
 

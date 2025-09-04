@@ -1,6 +1,6 @@
 (function() {
   const version = '0.1 (Test)';
-  const updated = '2025.09.03';
+  const updated = '2025.09.04';
 
   const el = document.getElementById('site-version');
   if (el) {

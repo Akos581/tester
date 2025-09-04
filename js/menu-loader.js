@@ -11,20 +11,40 @@
   }
   const BASE_HREF = getBaseHref(); // lehet null
 
-  // Aktuális oldal kiemelése — resolved összevetésnél használjuk a BASE_HREF-et ha van
-  const currentPath = (new URL(location.href)).pathname.replace(/\/$/, '/index.html');
+  // Normalizálás: '/path/' -> '/path/index.html'
+  function normalizePath(pathname) {
+    return pathname.replace(/\/$/, '/index.html');
+  }
+  // Aktuális oldal teljes pathname
+  const currentPath = normalizePath((new URL(location.href)).pathname);
 
   document.addEventListener("DOMContentLoaded", () => {
-    // Menü linkek kiemelése
+    // Menü linkek kiemelése, mélyre ható: ha belső linket találunk, megnézzük,
+    // melyik a pontos match és minden szülőt "open"-nel jelölünk.
     document.querySelectorAll('#header a').forEach(a => {
       try {
-        const href = a.getAttribute('href') || '';
-        const baseForResolve = BASE_HREF ? BASE_HREF : location.href;
-        const resolved = new URL(href, baseForResolve).pathname.replace(/\/$/, '/index.html');
-        if (resolved === currentPath) {
+        // használjuk a link resolved verzióját ha elérhető (absolute URL)
+        const resolvedHref = a.dataset.resolvedHref || a.getAttribute('href') || '';
+        // A resolvedHref egy teljes URL, normalizáljuk a pathname-t belőle
+        const resolvedPathname = normalizePath((new URL(resolvedHref, location.href)).pathname);
+
+        if (resolvedPathname === currentPath) {
           a.setAttribute('aria-current', 'page');
+
+          // Minden ancestor .dropdown-t nyissunk ki és jelöljük aktívnak
+          let node = a;
+          while (node) {
+            const dropdown = node.closest('.dropdown');
+            if (!dropdown) break;
+            dropdown.classList.add('open', 'active');
+            const parentLink = dropdown.querySelector('.dropdown-parent');
+            if (parentLink) parentLink.setAttribute('aria-expanded', 'true');
+            node = dropdown.parentElement;
+          }
         }
-      } catch(e) {}
+      } catch(e) {
+        // Ignore invalid URLs
+      }
     });
 
     // Menü nyit/zár gomb
@@ -37,12 +57,12 @@
       });
     }
 
-    // Téma váltás script betöltése
+    // Téma váltás script betöltése (BASE_HREF figyelembevételével)
     const themeScript = document.createElement('script');
     themeScript.src = BASE_HREF ? (BASE_HREF + 'js/theme.js') : 'js/theme.js';
     document.body.appendChild(themeScript);
 
-    // Visszaszámláló script betöltése
+    // Visszaszámláló script betöltése (BASE_HREF figyelembevételével)
     const countdownScript = document.createElement('script');
     countdownScript.src = BASE_HREF ? (BASE_HREF + 'js/countdown.js') : 'js/countdown.js';
     countdownScript.onload = () => {
