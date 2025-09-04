@@ -21,7 +21,8 @@
 
   // Globális init, hogy az index.html hívhassa betöltés után
   window.initExamCountdown = function () {
-    // Őszi írásbeli kezdete: 2025. október 10. (Figyelem: hónap 0-indexelt → 9 = október)
+    // Őszi írásbeli kezdete: 2025. október 10.
+    // (JS hónapok 0-indexeltek → 9 = október)
     var target = new Date(2025, 10, 10);
 
     updateCountdown('exam-countdown', target);

@@ -4,17 +4,14 @@
     return;
   }
 
-  // --- GitHub Pages repo neve ---
-  const REPO_NAME = "erettsegi"; // <-- IDE írd a saját repo nevét!
-  const BASE_PATH = `/${REPO_NAME}/`;
-
   const menu = window.MENU_DATA;
 
   function createLink(link) {
     const a = document.createElement("a");
     a.textContent = link.text;
-    // Minden href elé odatesszük a BASE_PATH-et
-    a.href = BASE_PATH + link.href;
+    // Ne prefixeljük kézzel a repo nevét — hagyjuk, hogy a böngésző oldja fel relatívan.
+    // Ha van <base>, azt a böngésző automatikusan használja.
+    a.setAttribute('href', link.href);
     return a;
   }
 
