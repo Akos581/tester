@@ -1,17 +1,19 @@
 (function() {
-  // Ha GitHub Pages-en vagyunk, állítsuk be a <base> dinamikusan a repo rootjára.
-  if (location.hostname.includes('github.io')) {
-    try {
-      var base = document.createElement('base');
+  try {
+    // Ha GitHub Pages-en vagyunk, állítsuk be a site gyökér (repo) URL-jét SITE_BASE-ként
+    if (location.hostname.includes('github.io')) {
       var path = location.pathname || '/';
-      // path lehet '/repo/' vagy '/repo/page.html' — kivesszük a '/repo/' részt
+      // kivesszük a /repo/ részt (pl. /tester/ vagy /username.github.io/ esetén '/')
       var match = path.match(/^\/[^\/]+\/?/);
       var baseHref = location.origin + (match ? match[0] : '/');
       if (!baseHref.endsWith('/')) baseHref += '/';
-      base.href = baseHref;
-      document.head.appendChild(base);
-    } catch(e) {
-      console.error('base-url.js hiba:', e);
+      window.SITE_BASE = baseHref;
+    } else {
+      // lokális fejlesztésnél feltételezzük, hogy a szerver a projekt gyökérét szolgálja ki
+      window.SITE_BASE = '/';
     }
+  } catch (e) {
+    // fallback
+    window.SITE_BASE = '/';
   }
 })();
